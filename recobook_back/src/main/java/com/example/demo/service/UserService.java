@@ -3,11 +3,16 @@ package com.example.demo.service;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -33,9 +38,13 @@ public class UserService implements UserDetailsService {
     }
 
     public User save(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setEnabled(true);
-        user.setRole("USER");
-        return userRepository.save(user);
+        User userToSave = new User();
+
+        userToSave.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userToSave.setEnabled(true);
+        userToSave.setRole(user.getRole());
+        userToSave.setUsername(user.getUsername());
+
+        return userRepository.save(userToSave);
     }
 }

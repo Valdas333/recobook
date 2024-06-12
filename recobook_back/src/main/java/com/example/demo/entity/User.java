@@ -3,9 +3,12 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
-@Table(name = "APP_USER")
+@Table(name = "Users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,5 +18,6 @@ public class User {
     private String password;
     private String role;
     private boolean enabled;
+
 
 }
