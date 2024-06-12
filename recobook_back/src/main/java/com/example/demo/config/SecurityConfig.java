@@ -45,6 +45,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/register", "/h2-console/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/hello-admin").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/category/*").hasRole("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )
