@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,5 +22,6 @@ public class Category {
             CascadeType.MERGE,
             CascadeType.REFRESH,
             CascadeType.DETACH})
+    @JsonIgnore
     private List<Book> books = new ArrayList<>();
 }

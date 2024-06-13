@@ -22,11 +22,11 @@ public class UserController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Hello user, from Spring Boot! ";
+        return "Hello user, from Spring Boot!";
     }
 
     @GetMapping("/hello-admin")
     public String helloAdmin() {
-        return "Hello Admin, from Spring Boot! ";
+        return "Hello Admin, from Spring Boot!";
     }
 }

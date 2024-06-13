@@ -5,6 +5,7 @@ import com.example.demo.entity.Book;
 import com.example.demo.repository.BookRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -53,6 +54,9 @@ public class BookController {
             }
             if (book.getAuthor() != null){
                 existingBook.setAuthor(book.getAuthor());
+            }
+            if(book.getCategory() != null ){
+                existingBook.setCategory(book.getCategory());
             }
 
             bookRepository.save(existingBook);
