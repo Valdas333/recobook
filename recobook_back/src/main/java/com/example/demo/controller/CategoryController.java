@@ -17,14 +17,20 @@ public class CategoryController {
 
     @PostMapping("/category/add")
     public String addCategory(@RequestBody Category category) {
-        categoryRepository.save(category);
-        return "Category added successfully";
+        if (categoryRepository.findByName(category.getName()).isEmpty()){
+            categoryRepository.save(category);
+            return "Category added successfully";
+        }
+        return "Category already exists";
     }
 
     @DeleteMapping("category/delete/{id}")
     public String deleteCategory(@PathVariable Long id) {
-        categoryRepository.deleteById(id);
-        return "Category deleted successfully";
+        if (categoryRepository.findById(id).isPresent()){
+            categoryRepository.deleteById(id);
+            return "Category deleted successfully";
+        }
+        return "Category not found";
     }
 
     @PutMapping("category/update/{id}")

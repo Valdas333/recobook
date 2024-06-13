@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -45,7 +44,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/register", "/h2-console/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/hello-admin").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/category/*").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/category/**", "/book/**").hasRole("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )
