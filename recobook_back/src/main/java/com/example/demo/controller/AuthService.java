@@ -25,7 +25,7 @@ public class AuthService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
-                .username(request.userName())
+                .username(request.username())
                 .enabled(true)
                 .password(passwordEncoder.encode(request.password()))
                 .role("ADMIN")
