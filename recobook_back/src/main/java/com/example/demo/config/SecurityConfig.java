@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,8 +42,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers( "api/auth/**", "/h2-console/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/hello-admin").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/category/**", "/book/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/v1-demo/hello-admin").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/v1-demo/hello-user").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.POST, "/category/**", "/book/**").hasAuthority("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )

@@ -1,9 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.AuthenticationRequest;
-import com.example.demo.entity.AuthenticationResponse;
-import com.example.demo.entity.RegisterRequest;
-import com.example.demo.entity.User;
+import com.example.demo.entity.*;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.JWTService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +25,7 @@ public class AuthService {
                 .username(request.username())
                 .enabled(true)
                 .password(passwordEncoder.encode(request.password()))
-                .role("ADMIN")
+                .role(Role.ADMIN)
                 .build();
 
         userRepository.save(user);
