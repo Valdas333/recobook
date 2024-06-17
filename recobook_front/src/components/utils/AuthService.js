@@ -41,6 +41,14 @@ class AuthService{
         const decodedToken = jwtDecode(user.token);
         return decodedToken.roles || [];
     }
+
+    addToken(response){
+        if(response.data.token) {
+            localStorage.setItem('user', JSON.stringify(response.data));
+        } else {
+            console.error("Provided token is null or undefined");
+        }
+    }
 }
 
 export default new AuthService();
