@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.*;
+import com.example.demo.exception.UsernameAlreadyExistsException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.JWTService;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,15 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        if(userRepository.existsByUsername(request.username())){
+            throw new UsernameAlreadyExistsException();
+        }
         var user = User.builder()
                 .username(request.username())
                 .enabled(true)
                 .password(passwordEncoder.encode(request.password()))
-                .role(Role.ADMIN)
+                .role(Role.USER)
                 .build();
-
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return new AuthenticationResponse(jwtToken);
