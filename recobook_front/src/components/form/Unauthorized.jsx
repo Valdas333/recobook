@@ -8,7 +8,8 @@ const Unauthorized = () => {
     const handleLogout = () => {
        AuthService.logout();
     };
-
+    const userRoles = AuthService.getRoles();
+    console.log(userRoles);
     if (!currentUser) {
         return <div>Please login to access this page.</div>
     }
