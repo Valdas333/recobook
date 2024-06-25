@@ -44,7 +44,7 @@ public class SecurityConfig {
                                 .requestMatchers( "api/auth/**", "/h2-console/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1-demo/hello-admin").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/api/v1-demo/hello-user").hasAuthority("USER")
-                                .requestMatchers(HttpMethod.POST, "/category/**", "/book/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/category/**", "/book/**").hasAuthority("USER")
                                 .anyRequest()
                                 .authenticated()
                 )

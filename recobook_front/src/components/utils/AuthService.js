@@ -41,6 +41,10 @@ class AuthService{
         const decodedToken = jwtDecode(user.token);
         return decodedToken.roles || [];
     }
+    getToken() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        return user ? user.token : null;
+    }
 
     addToken(response){
         if(response.data.token) {

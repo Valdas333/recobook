@@ -4,6 +4,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.AuthenticationResponse;
 import com.example.demo.entity.AuthenticationRequest;
 import com.example.demo.entity.RegisterRequest;
+import com.example.demo.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

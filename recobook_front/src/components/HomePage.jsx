@@ -1,18 +1,23 @@
 import { Typography, Button, AppBar, Toolbar, Grid, Drawer, ListItem, ListItemText, List } from '@mui/material';
+import AuthService from "./utils/AuthService.js";
+import {useNavigate} from "react-router-dom";
 
 export default function HomePage() {
+
+    const navigate = useNavigate();
+
     const logout = () => {
-        //logout code here
-    };
+        AuthService.logout();
+        navigate('/login');
+    }
+
 
     const drawerItems = [
-
+        // prideti kaires puses navbaro elementus
         {text: 'Dashboard', onClick: () => {/*dashboard page code here*/}},
-        {text: 'Profile', onClick: () => {/*profile page code here*/}},
-        {text: 'Categories', onClick: () => {/*categories page code here*/}},
-        {text: 'Books', onClick: () => {/*books page code here*/}},
+        {text: 'Add Categories', onClick: () => {/*categories page code here*/}},
+        {text: 'Add Books', onClick: () => {/*books page code here*/}},
     ];
-    console.log("dsfs");
     return (
         <>
             <AppBar>
@@ -37,7 +42,7 @@ export default function HomePage() {
                     </List>
                 </Drawer>
                 <Grid item xs>
-                    <Typography variant="h4">
+                    <Typography variant="h1">
                         Dashboard
                     </Typography>
                     {/* Dashboard content here */}

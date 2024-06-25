@@ -19,10 +19,6 @@ const Login = () => {
     }
   };
 
-  const handleLogout = () => {
-    AuthService.logout();
-  }
-
   return (
     <div>
       <h2>Login</h2>
@@ -46,7 +42,6 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
       {message && <p>{message}</p>}
-      <button onSubmit={handleLogout}>Logout</button>
     </div>
   );
 };

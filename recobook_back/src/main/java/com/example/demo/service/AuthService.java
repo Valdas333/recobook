@@ -1,14 +1,11 @@
-package com.example.demo.controller;
+package com.example.demo.service;
 
 import com.example.demo.entity.*;
 import com.example.demo.exception.UsernameAlreadyExistsException;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

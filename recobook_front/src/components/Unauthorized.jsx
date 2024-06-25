@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
-import AuthService from "../utils/AuthService.js";
-import {AuthContext} from "../utils/AuthContext.jsx";
+import AuthService from "./utils/AuthService.js";
+import {AuthContext} from "./utils/AuthContext.jsx";
 
 const Unauthorized = () => {
 

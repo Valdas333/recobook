@@ -4,9 +4,10 @@ import {AuthProvider} from "./components/utils/AuthContext.jsx";
 import {Route, BrowserRouter, Routes} from "react-router-dom";
 import IsNotLogged from "./components/utils/IsNotLogged.jsx";
 import Registration from "./components/form/registration/Registration.jsx";
-import ProtectedRoute from "./components/utils/ProtectedRoute.jsx";
-import HomePage from "./components/form/components/HomePage.jsx";
-import Unauthorized from "./components/form/Unauthorized.jsx";
+import HomePage from "./components/HomePage.jsx";
+import Unauthorized from "./components/Unauthorized.jsx";
+import BookPage from "./components/pages/BookPage.jsx";
+import CategoryPage from "./components/pages/CategoryPage.jsx";
 
 
 function App() {
@@ -14,10 +15,14 @@ function App() {
         <AuthProvider>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/login" element={<IsNotLogged><Login /></IsNotLogged>} />
-                    <Route path="/register" element={<IsNotLogged><Registration /></IsNotLogged>} />
-                    <Route path="/home" element={<ProtectedRoute roles={['USER']} element={<HomePage />} />} />
-                    <Route path="/unauthorized" element={<Unauthorized />} />
+                    <Route element={<IsNotLogged/>}>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/register" element={<Registration/>}/>
+                    </Route>
+                    <Route path="/home" element={<HomePage/>}/>
+                    <Route path="/add/book" element={<BookPage/>}/>
+                    <Route path="/category/add" element={<CategoryPage/>}/>
+                    <Route path="/unauthorized" element={<Unauthorized/>}/>
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
