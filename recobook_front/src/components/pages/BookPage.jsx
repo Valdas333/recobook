@@ -1,16 +1,17 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-    TextField, Button, MenuItem, Select, FormControl, InputLabel,
-    Box, Container, Typography, Grid,
+    TextField,
+    Button,
+    MenuItem,
+    Select,
+    FormControl,
+    InputLabel,
+    Box,
+    Container,
+    Typography,
+    Grid,
 } from '@mui/material';
-import axiosInstance from "../utils/axiosInstance.jsx";
-
-const categories = [
-    {id: 1, name: 'Fiction'},
-    {id: 2, name: 'Non-Fiction'},
-    {id: 3, name: 'Science'},
-    {id: 4, name: 'History'},
-];
+import axiosInstance from '../utils/axiosInstance';
 
 const BookFormPage = () => {
     const [book, setBook] = useState({
@@ -22,8 +23,23 @@ const BookFormPage = () => {
         category: '',
     });
 
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axiosInstance.get('/category');
+                setCategories(response.data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
     const handleChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setBook((prevBook) => ({
             ...prevBook,
             [name]: value,
@@ -35,6 +51,7 @@ const BookFormPage = () => {
         try {
             const response = await axiosInstance.post('/book/add', book);
             console.log('Book submitted:', response.data);
+            // Reset form
             setBook({
                 author: '',
                 title: '',
@@ -44,13 +61,14 @@ const BookFormPage = () => {
                 category: '',
             });
         } catch (error) {
+            console.log(book);
             console.error('There was an error submitting the book!', error);
         }
     };
 
     return (
         <Container maxWidth="sm">
-            <Box sx={{mt: 4}}>
+            <Box sx={{ mt: 4 }}>
                 <Typography variant="h4" component="h1" gutterBottom>
                     Add New Book
                 </Typography>

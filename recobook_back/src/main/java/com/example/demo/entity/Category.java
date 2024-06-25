@@ -3,13 +3,17 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
 
     @Id
@@ -20,8 +24,11 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.DETACH})
+    })
     @JsonIgnore
     private List<Book> books = new ArrayList<>();
+
+    public Category(long id) {
+        this.id = id;
+    }
 }

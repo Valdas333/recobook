@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dto.BookRequestDTO;
 import com.example.demo.entity.Book;
 import com.example.demo.repository.BookRepository;
+import com.example.demo.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -12,18 +14,20 @@ import java.util.Optional;
 public class BookController {
 
     private final BookRepository bookRepository;
+    private final BookService bookService;
 
-    public BookController(BookRepository bookRepository) {
+    public BookController(BookRepository bookRepository, BookService bookService) {
         this.bookRepository = bookRepository;
+        this.bookService = bookService;
     }
 
     @PostMapping("/book/add")
-    public String addBook(@RequestBody Book book) {
-        if (bookRepository.findByIsbn(book.getIsbn()).isEmpty()) {
-            bookRepository.save(book);
+    public String addBook(@RequestBody BookRequestDTO bookRequestDTO) {
+        if (bookRepository.findByIsbn(bookRequestDTO.getIsbn()).isEmpty()) {
+            bookService.saveBook(bookRequestDTO);
             return "Book added successfully";
         }
-        return "Book with ISBN " + book.getIsbn() + " already exists";
+        return "Book with ISBN " + bookRequestDTO.getIsbn() + " already exists";
     }
 
     @DeleteMapping("/book/delete/{id}")

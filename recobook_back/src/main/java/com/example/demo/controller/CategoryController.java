@@ -4,8 +4,10 @@ import com.example.demo.entity.Category;
 import com.example.demo.repository.CategoryRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 public class CategoryController {
 
@@ -24,7 +26,7 @@ public class CategoryController {
         return "Category already exists";
     }
 
-    @DeleteMapping("category/delete/{id}")
+    @DeleteMapping("/category/delete/{id}")
     public String deleteCategory(@PathVariable Long id) {
         if (categoryRepository.findById(id).isPresent()){
             categoryRepository.deleteById(id);
@@ -33,7 +35,7 @@ public class CategoryController {
         return "Category not found";
     }
 
-    @PutMapping("category/update/{id}")
+    @PutMapping("/category/update/{id}")
     public String updateCategory(@PathVariable Long id, @RequestBody Category category) {
         Optional<Category> existingCategory = categoryRepository.findById(id);
         if (existingCategory.isPresent()) {
@@ -44,5 +46,10 @@ public class CategoryController {
         } else {
             return "Category not found";
         }
+    }
+
+    @GetMapping("/category")
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
     }
 }
