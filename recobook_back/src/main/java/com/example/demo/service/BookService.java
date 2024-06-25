@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class BookService {
-    private final  BookRepository bookRepository;
+    private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
 
     public BookService(BookRepository bookRepository, CategoryRepository categoryRepository) {
@@ -20,13 +20,14 @@ public class BookService {
     }
 
     public void saveBook(BookRequestDTO bookRequestDTO) {
-        System.out.println(bookRequestDTO.getCategory());
         Optional<Category> category = categoryRepository.findById(bookRequestDTO.getCategory());
         if (category.isPresent()) {
             Book book = Book.builder()
                     .title(bookRequestDTO.getTitle())
                     .author(bookRequestDTO.getAuthor())
+                    .description(bookRequestDTO.getDescription())
                     .isbn(bookRequestDTO.getIsbn())
+                    .pageCount(bookRequestDTO.getPageCount())
                     .category(category.get())
                     .build();
             bookRepository.save(book);

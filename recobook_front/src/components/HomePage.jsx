@@ -1,6 +1,7 @@
 import { Typography, Button, AppBar, Toolbar, Grid, Drawer, ListItem, ListItemText, List } from '@mui/material';
 import AuthService from "./utils/AuthService.js";
 import {useNavigate} from "react-router-dom";
+import BookList from "./BookList.jsx";
 
 export default function HomePage() {
 
@@ -41,13 +42,8 @@ export default function HomePage() {
                         ))}
                     </List>
                 </Drawer>
-                <Grid item xs>
-                    <Typography variant="h1">
-                        Dashboard
-                    </Typography>
-                    {/* Dashboard content here */}
-                </Grid>
             </Grid>
+            <BookList />
             <footer>
                 <Typography>All rights reserved</Typography>
             </footer>
