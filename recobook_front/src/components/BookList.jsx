@@ -51,10 +51,10 @@ const BookList = () => {
         <Container>
             <Grid container spacing={2}>
                 {books.map((book) => (
-                    <Grid item xs={12} sm={4} md={6} lg={6} key={book.id}>
+                    <Grid key={book.id}>
                         <Card sx={{ maxWidth: 345 }}>
                             <CardMedia
-                                sx={{ height: 140 }}
+                                sx={{ height: 100 }}
                                 image="/static/images/cards/contemplative-reptile.jpg"
                                 title={book.title}
                             />

@@ -8,6 +8,7 @@ import HomePage from "./components/HomePage.jsx";
 import Unauthorized from "./components/Unauthorized.jsx";
 import BookPage from "./components/pages/BookPage.jsx";
 import CategoryPage from "./components/pages/CategoryPage.jsx";
+import IsLogged from "./components/utils/IsLogged.jsx";
 
 
 function App() {
@@ -19,9 +20,11 @@ function App() {
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/register" element={<Registration/>}/>
                     </Route>
+v                   <Route element={<IsLogged/>}>
                     <Route path="/home" element={<HomePage/>}/>
                     <Route path="/add/book" element={<BookPage/>}/>
                     <Route path="/category/add" element={<CategoryPage/>}/>
+                </Route>
                     <Route path="/unauthorized" element={<Unauthorized/>}/>
                 </Routes>
             </BrowserRouter>

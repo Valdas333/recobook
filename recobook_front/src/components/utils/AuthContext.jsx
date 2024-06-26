@@ -1,10 +1,9 @@
-import {createContext, useState, useEffect} from "react";
+import {createContext, useState, useEffect } from "react";
 import Authentication from "./AuthService.js";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
-
     const [isAuthenticated, setIsAuthenticated] = useState(Authentication.isAuthenticated());
     const [currentUser, setCurrentUser] = useState(Authentication.getCurrentUser());
     const [roles, setRoles] = useState(Authentication.getRoles());
