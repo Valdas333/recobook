@@ -11,25 +11,34 @@ import {
     Container,
 } from '@mui/material';
 import axiosInstance from './utils/axiosInstance.jsx';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 const BookList = () => {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let isMounted = true;
         const fetchBooks = async () => {
             try {
                 const response = await axiosInstance.get('/books');
-                setBooks(response.data);
-                setLoading(false);
+                if (isMounted) {
+                    setBooks(response.data);
+                    setLoading(false);
+                }
             } catch (error) {
-                console.error('Error fetching books:', error);
-                setLoading(false);
+                if (isMounted) {
+                    console.error('Error fetching books:', error);
+                    setLoading(false);
+                }
             }
         };
 
         fetchBooks();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     if (loading) {
@@ -42,7 +51,7 @@ const BookList = () => {
                     height: '100vh',
                 }}
             >
-                <CircularProgress />
+                <CircularProgress/>
             </Box>
         );
     }
@@ -51,11 +60,11 @@ const BookList = () => {
         <Container>
             <Grid container spacing={2}>
                 {books.map((book) => (
-                    <Grid key={book.id}>
-                        <Card sx={{ maxWidth: 345 }}>
+                    <Grid item xs={12} sm={6} md={6} lg={6} key={book.id}>
+                        <Card sx={{maxWidth: 345}}>
                             <CardMedia
-                                sx={{ height: 100 }}
-                                image="/static/images/cards/contemplative-reptile.jpg"
+                                sx={{height: 140}}
+                                image="/static/images/cards/contemplative-reptile.jpg" // Replace with actual image URL if available
                                 title={book.title}
                             />
                             <CardContent>
@@ -88,4 +97,3 @@ const BookList = () => {
 };
 
 export default BookList;
-
