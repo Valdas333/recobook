@@ -1,21 +1,22 @@
-import {
-    Box,
-    Grid,
-    Card,
-    CardContent,
-    Typography,
-    CircularProgress,
-    CardMedia,
-    CardActions,
-    Button,
-    Container,
-} from '@mui/material';
+import { Box, CircularProgress, Container, Grid, Card, CardMedia, CardContent,
+    Typography, CardActions, Button } from '@mui/material';
 import axiosInstance from './utils/axiosInstance.jsx';
 import {useEffect, useState} from 'react';
+import EditBookDialog from "./EditBookDialog.jsx";
 
 const BookList = () => {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedBook, setSelectedBook] = useState(null);
+
+    const onEdit = (book) => {
+        setSelectedBook(book);
+    };
+
+    const handleEditDialogClose = () => {
+        setSelectedBook(null);
+    };
+
 
     useEffect(() => {
         let isMounted = true;
@@ -60,7 +61,7 @@ const BookList = () => {
         <Container>
             <Grid container spacing={2}>
                 {books.map((book) => (
-                    <Grid item xs={12} sm={6} md={6} lg={6} key={book.id}>
+                    <Grid item xs={8} sm={8} md={12} lg={12} key={book.id}>
                         <Card sx={{maxWidth: 345}}>
                             <CardMedia
                                 sx={{height: 140}}
@@ -84,9 +85,16 @@ const BookList = () => {
                                     Pages: {book.pageCount}
                                 </Typography>
                             </CardContent>
+                            {selectedBook &&
+                                <EditBookDialog
+                                    open={Boolean(selectedBook)}
+                                    onClose={handleEditDialogClose}
+                                    book={selectedBook}
+                                />
+                            }
                             <CardActions>
-                                <Button size="small">Share</Button>
-                                <Button size="small">Learn More</Button>
+                                <Button size="small" onClick={()=> onEdit(book)}>Edit</Button>
+                                <Button size="small">Delete</Button>
                             </CardActions>
                         </Card>
                     </Grid>
