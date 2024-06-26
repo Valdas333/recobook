@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Dialog,
     DialogActions,
@@ -8,15 +8,22 @@ import {
     TextField,
     InputLabel,
     Select,
-    MenuItem
+    MenuItem,
+    FormControl
 } from '@mui/material';
 import axiosInstance from "./utils/axiosInstance.jsx";
 
-const EditBookDialog = ({book, open, onClose}) => {
-    const [localBook, setLocalBook] = useState({ title: '', author: '' });
+const EditBookDialog = ({ book, open, onClose }) => {
+    const [localBook, setLocalBook] = useState({ title: '', author: '', description: '', isbn: '', category: { id: '', name: '' } });
     const [categories, setCategories] = useState([]);
+
     useEffect(() => {
-        setLocalBook(book);
+        if (book) {
+            setLocalBook({
+                ...book,
+                category: book.category || { id: '', name: '' }
+            });
+        }
     }, [book]);
 
     useEffect(() => {
@@ -32,29 +39,37 @@ const EditBookDialog = ({book, open, onClose}) => {
         fetchCategories();
     }, []);
 
-
     const handleClose = () => {
         onClose();
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // handle update logic here...
-        console.log(localBook);
-        onClose();
+        try {
+            const updatedBook = {
+                ...localBook,
+                category: localBook.category.id
+            };
+            await axiosInstance.put(`/book/edit/${localBook.id}`, updatedBook);
+            console.log('Book updated successfully');
+            onClose();
+        } catch (error) {
+            console.error('Error updating book:', error);
+        }
     };
 
     const handleChange = (event) => {
-        if (event.target.name === 'category') {
-            setLocalBook({
-                ...localBook,
-                category: categories.find(cat => cat.id === event.target.value),
-            });
+        const { name, value } = event.target;
+        if (name === 'category') {
+            setLocalBook((prevState) => ({
+                ...prevState,
+                category: categories.find(cat => cat.id === value) || { id: '', name: '' },
+            }));
         } else {
-            setLocalBook({
-                ...localBook,
-                [event.target.name]: event.target.value,
-            });
+            setLocalBook((prevState) => ({
+                ...prevState,
+                [name]: value,
+            }));
         }
     };
 
@@ -88,7 +103,7 @@ const EditBookDialog = ({book, open, onClose}) => {
                         label="Description"
                         type="text"
                         fullWidth
-                        value={localBook.description  || ''}
+                        value={localBook.description || ''}
                         onChange={handleChange}
                     />
                     <TextField
@@ -97,22 +112,25 @@ const EditBookDialog = ({book, open, onClose}) => {
                         label="ISBN"
                         type="text"
                         fullWidth
-                        value={localBook.isbn  || ''}
+                        value={localBook.isbn || ''}
                         onChange={handleChange}
                     />
-
-                    <Select
-                        name="category"
-                        value={localBook.category.id  || ''}
-                        onChange={handleChange}
-                        label="Category"
-                    >
-                        {categories.map((category) => (
-                            <MenuItem key={category.id} value={category.id}>
-                                {category.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    <FormControl fullWidth margin="dense">
+                        <InputLabel id="category-label">Category</InputLabel>
+                        <Select
+                            labelId="category-label"
+                            name="category"
+                            value={localBook.category.id || ''}
+                            onChange={handleChange}
+                            label="Category"
+                        >
+                            {categories.map((category) => (
+                                <MenuItem key={category.id} value={category.id}>
+                                    {category.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
@@ -121,6 +139,6 @@ const EditBookDialog = ({book, open, onClose}) => {
             </form>
         </Dialog>
     );
-}
+};
 
 export default EditBookDialog;

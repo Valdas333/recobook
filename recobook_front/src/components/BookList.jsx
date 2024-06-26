@@ -42,6 +42,20 @@ const BookList = () => {
         };
     }, []);
 
+    const deleteBook = async (id) => {
+        try {
+            const response = await axiosInstance.delete(`/book/delete/${id}`);
+            if (response.data === `Book deleted successfully`) {
+                console.log(response.data);
+                // Here you might want to set some state to cause a re-render or refresh the book list
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Error while deleting book:', error);
+        }
+    };
+
     if (loading) {
         return (
             <Box
@@ -94,7 +108,7 @@ const BookList = () => {
                             }
                             <CardActions>
                                 <Button size="small" onClick={()=> onEdit(book)}>Edit</Button>
-                                <Button size="small">Delete</Button>
+                                <Button size="small" onClick={() => deleteBook(book.id)}>Delete</Button>
                             </CardActions>
                         </Card>
                     </Grid>
