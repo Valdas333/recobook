@@ -4,6 +4,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.BookRequestDTO;
 import com.example.demo.entity.Book;
 import com.example.demo.repository.BookRepository;
+import com.example.demo.repository.CategoryRepository;
 import com.example.demo.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +16,12 @@ public class BookController {
 
     private final BookRepository bookRepository;
     private final BookService bookService;
+    private final CategoryRepository categoryRepository;
 
-    public BookController(BookRepository bookRepository, BookService bookService) {
+    public BookController(BookRepository bookRepository, BookService bookService, CategoryRepository categoryRepository) {
         this.bookRepository = bookRepository;
         this.bookService = bookService;
+        this.categoryRepository = categoryRepository;
     }
 
     @PostMapping("/book/add")
@@ -41,6 +44,7 @@ public class BookController {
 
     @PutMapping("/book/edit/{id}")
     public String editBook(@PathVariable Long id, @RequestBody Book book) {
+        System.out.println(book.getCategory());
         Optional<Book> existingBookOptional = bookRepository.findById(id);
         if (existingBookOptional.isPresent()) {
             Book existingBook = existingBookOptional.get();
@@ -60,7 +64,8 @@ public class BookController {
                 existingBook.setAuthor(book.getAuthor());
             }
             if(book.getCategory() != null ){
-                existingBook.setCategory(book.getCategory());
+                categoryRepository.findById(book.getCategory().getId());
+                existingBook.setCategory(categoryRepository.findById(book.getCategory().getId()).get());
             }
 
             bookRepository.save(existingBook);
